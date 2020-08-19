@@ -6,6 +6,7 @@
 // 6. Add(x, y, C), 把区间[x,y]都加上C
 // 7. GetMin(x, y), 寻找区间[x,y]中最小的数
 // 8. OutPut(root, vec), vec为答案数组，[1,n],0和n+1为添加数
+
 namespace Splay {
 	int fa[MAXN], ch[MAXN][2], val[MAXN], addv[MAXN], siz[MAXN], rev[MAXN], mn[MAXN];
 	int st[MAXN], root, tot;
