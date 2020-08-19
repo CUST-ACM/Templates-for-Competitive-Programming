@@ -1,10 +1,10 @@
-1. access(x), 使根到x的链连接
-2. makeRoot(x), 使x成为根
-3. findRoot(x), 寻找x的根
-4. split(x, y), 把x到y的链单独拿出来，以y为根
-5. link(x, y), 连接边<x,y>
-6. cut(x, y), 切断边<x,y>
-7. check(x, y), 判断x与y是否连通
+//1. access(x), 使根到x的链连接
+//2. makeRoot(x), 使x成为根
+//3. findRoot(x), 寻找x的根
+//4. split(x, y), 把x到y的链单独拿出来，以y为根
+//5. link(x, y), 连接边<x,y>
+//6. cut(x, y), 切断边<x,y>
+//7. check(x, y), 判断x与y是否连通
 namespace LinkCutTree {
     int fa[MAXN], val[MAXN], ch[MAXN][2];
     int sum[MAXN], rev[MAXN], st[MAXN], siz[MAXN];
