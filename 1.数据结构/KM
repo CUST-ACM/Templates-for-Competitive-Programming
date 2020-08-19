@@ -1,6 +1,7 @@
-1. init() 初始化边权
-2. add(u, v, w) 连一条u到v的边
-3. KM() 二分图最大权完备匹配
+//1. init() 初始化边权
+//2. add(u, v, w) 连一条u到v的边
+//3. KM() 二分图最大权完备匹配
+// O(n^3)
 namespace KM {
     ll cost[MAXN][MAXN], ans, slack[MAXN], ex[MAXN], ey[MAXN];//double换类型
     ll mat[MAXN], pre[MAXN], visy[MAXN], n;
