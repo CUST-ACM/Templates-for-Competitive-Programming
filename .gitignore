@@ -1,1 +1,4 @@
 *.exe
+a.out
+.vscode/
+.idea/
