@@ -1,0 +1,86 @@
+namespace Lucas{ // 当p是质数时, O(klog_pm),\ k = m \mod p
+    ll pow(ll a, ll b, ll p){
+        ll ans = 1; a %= p;
+        while(b){
+            if(b & 1)ans = ans * a % p;
+            b >>= 1;
+            a = a * a % p;
+        }
+        return ans;
+    }
+    ll inv(ll x, ll p){//x关于p的逆元，p为素数
+        return pow(x, p - 2, p);
+    }
+    ll C(ll n, ll m, ll p){//求组合数C(n,m)%p
+        if(n < m)return 0;
+        if(m == n || m == 0)return 1;
+        if(m * 2 > n)m = n - m;
+        ll up = 1, down = 1;//分子分母
+        for(ll i = n - m + 1; i <= n; i++) up = up * i % p;
+        for(ll i = 1; i <= m; i++)down = down * i % p;
+        return up * inv(down, p) % p;
+    }
+    ll lucas(ll n,ll m,ll p){//C(n, m) % p
+        if(m == 0)return 1;
+        return C(n % p, m % p, p) * lucas(n / p, m / p, p) % p;
+    }
+};
+
+
+namespace ex_Lucas{ // 当p不为质数时, O(plogp)
+    void ex_gcd(ll a, ll b, ll &d, ll &x, ll &y){
+        if(!b){
+            d = a, x = 1, y = 0;
+            return;
+        }
+        ex_gcd(b, a % b, d, y, x);
+        y -= x * (a / b);
+    }
+    ll inv(ll a, ll p){//求a在p模下的逆元
+        ll d, x, y;
+        ex_gcd(a, p, d, x, y);
+        return (x % p + p) % p;//保证有解了
+    }
+    ll pow(ll a, ll b, ll p){
+        ll ans = 1; a %= p;
+        while(b){
+            if(b & 1)ans = ans * a % p;
+            b >>= 1;
+            a = a * a % p;
+        }
+        return ans;
+    }
+    ll crt(ll a, ll M, ll m){//x = a(mod m)
+        return inv(M / m, m) * (M / m) * a % M;
+    }
+    ll fac(ll n, ll p, ll pk){//f(n)
+        if(!n)return 1;
+        ll ans = 1;
+        for(ll i = 1; i <= pk; i++)//循环节
+            if(i % p) ans = ans * i % pk;
+        ans = pow(ans, n / pk, pk);
+        for(ll i = pk * (n / pk); i <= n; i++)//余项
+            if(i % p) ans = ans * (i % pk) % pk;
+        return ans * fac(n / p, p, pk) % pk;
+    }
+    ll C(ll n, ll m, ll p, ll pk){
+        ll N = fac(n, p, pk), M = fac(m, p, pk), Z = fac(n - m, p, pk);
+        ll sum = 0;
+        for(ll i = n; i; i = i / p) sum += i / p;//g(n)
+        for(ll i = m; i; i = i / p) sum -= i / p;//g(m)
+        for(ll i = n - m; i; i = i / p) sum -= i / p;//g(n-m)
+        return N * pow(p, sum, pk) % pk * inv(M, pk) % pk * inv(Z, pk) % pk;
+    }
+    ll exlucas(ll n, ll m, ll p){//C(n,m) % p
+        ll ans = 0;
+        ll t = p;
+        for(ll i = 2; i * i <= p; i++){
+            ll k = 1;
+            while(t % i == 0) k *= i,t /= i;
+            ans = (ans + crt(C(n, m, i, k), p, k)) % p;
+        }
+        if(t > 1)
+            ans = (ans + crt(C(n, m, t, t), p, t)) % p;
+        return ans;
+    }
+};
